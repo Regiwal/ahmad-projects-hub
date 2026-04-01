@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ahmad Projects Hub | Modern Portfolio</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 10% 30%, #0a0f2c, #030617);
+            color: #f0f3ff;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* glassmorphism base */
+        .glass-card {
+            background: rgba(15, 25, 55, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 28px 40px -15px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 1.8rem;
+        }
+
+        /* navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #80b3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+        }
+
+        .nav-links a {
+            color: #eef5ff;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+
+        .nav-links a:hover {
+            color: #8bb9fe;
+        }
+
+        /* buttons */
+        .btn-primary {
+            background: linear-gradient(105deg, #2a6df4, #1e4bc2);
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 2.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px rgba(0, 80, 255, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(105deg, #3a7afe, #2a5ad0);
+            transform: scale(1.02);
+            box-shadow: 0 12px 26px rgba(0, 100, 255, 0.35);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            padding: 0.6rem 1.3rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #f0f3ff;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+        }
+
+        /* hero */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 2.5rem 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #fff, #b4d0ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            margin: 1rem 0 2rem;
+            opacity: 0.85;
+        }
+
+        /* filters + search */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.2rem;
+            margin: 2rem 0 2.2rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.55rem 1.4rem;
+            border-radius: 3rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #eef3ff;
+        }
+
+        .filter-btn.active {
+            background: #2a6df4;
+            border-color: #2a6df4;
+            box-shadow: 0 4px 12px rgba(42, 109, 244, 0.4);
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3rem;
+            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 0.6rem;
+            font-size: 0.95rem;
+            color: white;
+            outline: none;
+            width: 200px;
+        }
+
+        .search-box input::placeholder {
+            color: #b9ceff;
+        }
+
+        .search-box button {
+            background: #1e3b8a;
+            border: none;
+            border-radius: 2rem;
+            padding: 0.4rem 1.2rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* projects grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0 3rem;
+        }
+
+        .project-card {
+            background: rgba(20, 30, 55, 0.65);
+            backdrop-filter: blur(10px);
+            border-radius: 1.8rem;
+            overflow: hidden;
+            transition: all 0.25s;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 190px;
+            background-size: cover;
+            background-position: center;
+            background-color: #11172b;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #cbd9ff;
+            margin-bottom: 1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .tech-badge {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 0.25rem 0.9rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* modal / details page overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 5, 20, 0.85);
+            backdrop-filter: blur(14px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .details-modal {
+            max-width: 850px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: rgba(12, 20, 45, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.98);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.active .details-modal {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .preview-img {
+            width: 100%;
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 1.5rem;
+            margin: 1rem 0 1.2rem;
+            background-color: #121a3a;
+        }
+
+        .features-list {
+            margin: 1rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .features-list li {
+            margin: 0.5rem 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding: 2rem 0 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            margin: 1rem 0;
+        }
+
+        .social-links a {
+            color: #ccdeff;
+            font-size: 1.6rem;
+            transition: 0.2s;
+        }
+
+        .social-links a:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 720px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav>
+            <div class="logo"><i class="fas fa-cube"></i> Ahmad Projects Hub</div>
+            <div class="nav-links">
+                <a href="#" id="navHome">Home</a>
+                <a href="#" id="navProjects">Projects</a>
+            </div>
+        </nav>
+
+        <main id="appContent">
+            <!-- Home page section -->
+            <div id="homePage">
+                <div class="hero">
+                    <h1>My Projects</h1>
+                    <div class="tagline">A collection of my web development and digital work</div>
+                    <button id="exploreBtn" class="btn-primary"><i class="fas fa-rocket"></i> Explore Projects</button>
+                </div>
+                <!-- preview of projects (show first 3) but not full grid - but home will redirect, we show mini? Actually we keep consistent but we redirect to projects -->
+                <div style="margin: 2rem 0 1rem; text-align: center; opacity:0.7">
+                    <i class="fas fa-arrow-down"></i> Scroll to discover featured work
+                </div>
+                <!-- mini preview grid (optional) but we'll show same project grid on projects section. To make clean, home will show full projects? better: home has same project grid? Requirement: separate sections but I'll unify: on home, also show project grid but also have explore projects button scrolls. but I implement smooth page state: home shows hero + projects section integrated. -->
+                <div id="projectsSectionMarker"></div>
+                <!-- projects grid appears both in home and projects view, but we reuse same dynamic area -->
+            </div>
+
+            <!-- filter & search bar (visible on both) -->
+            <div class="toolbar">
+                <div class="filter-group" id="filterContainer">
+                    <button class="filter-btn active" data-cat="all">All</button>
+                    <button class="filter-btn" data-cat="Web Apps">Web Apps</button>
+                    <button class="filter-btn" data-cat="UI Designs">UI Designs</button>
+                    <button class="filter-btn" data-cat="Marketing Projects">Marketing Projects</button>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search projects...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <!-- Projects Grid container -->
+            <div id="projectsGridContainer" class="projects-grid"></div>
+        </main>
+
+        <footer>
+            <div class="social-links">
+                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+            </div>
+            <p style="font-size: 0.85rem; margin-top: 1rem;">© 2025 Ahmad Projects Hub — Innovative digital craft</p>
+        </footer>
+    </div>
+
+    <!-- Modal for details page -->
+    <div id="detailsModal" class="modal-overlay">
+        <div class="details-modal">
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ---------- PROJECT DATABASE ----------
+        const projectsData = [
+            {
+                id: 1,
+                title: "NeoBank Dashboard",
+                shortDesc: "Modern fintech dashboard with analytics & widgets.",
+                fullDesc: "A complete banking analytics dashboard that shows real-time transactions, spending insights, and financial goals. Built with modular components and smooth UI interactions.",
+                features: ["Real-time balance chart", "Transaction history", "Dark/light mode toggle", "Budget planning tools"],
+                techStack: ["React", "Tailwind", "Chart.js", "Firebase"],
+                category: "Web Apps",
+                image: "https://placehold.co/600x400/0a1f44/80b3ff?text=NeoBank+Dashboard",
+                liveDemo: "#",
+                github: "#"
+            },
+            {
+                id: 2,
+                title: "Aurora UI Kit",
+                shortDesc: "High-fidelity design system & component library.",
+                fullDesc: "A modern UI kit with glassmorphic components, dark mode ready, and over 40 customizable elements. Perfect for startups and portfolios.",
+                features: ["Figma source", "Dark/light variants", "Responsive grids", "Accessible components"],
+                techStack: ["Figma", "CSS Variables", "Storybook"],
+                category: "UI Designs",
+                image: "https://placehold.co/600x400/11204b/aaccff?text=Aurora+UI+Kit",
+                liveDemo: "#",
+                github: "#"
+            },
+            {
+                id: 3,
+                title: "LaunchPad Marketing",
+                shortDesc: "Landing page for product launch with high conversion.",
+                fullDesc: "A stunning marketing website built to showcase a SaaS product launch. Includes animated sections, countdown timer, and lead capture forms.",
+                features: ["GSAP animations", "Email signup", "Mobile optimized", "SEO friendly"],
+                techStack: ["HTML5", "CSS3", "JavaScript", "GSAP"],
+                category: "Marketing Projects",
+                image: "https://placehold.co/600x400/152455/c7e2ff?text=LaunchPad+Marketing",
+                liveDemo: "#",
+                github: "#"
+            },
+            {
+                id: 4,
+                title: "WeatherWave App",
+                shortDesc: "Real-time weather web app with geolocation.",
+                fullDesc: "Weather application providing current forecasts, 7-day trend, and interactive maps. Uses OpenWeather API and smooth transitions.",
+                features: ["Location detection", "Hourly forecast", "Animated weather icons", "Unit toggle"],
+                techStack: ["JavaScript", "REST API", "CSS Grid", "Leaflet"],
+                category: "Web Apps",
+                image: "https://placehold.co/600x400/0c1f3a/9ac2ff?text=WeatherWave",
+                liveDemo: "#",
+                github: "#"
+            },
+            {
+                id: 5,
+                title: "Glassmorphic Portfolio",
+                shortDesc: "Creative personal portfolio concept with modern glass.",
+                fullDesc: "An interactive portfolio template with glassmorphism, mouse-follow blur, and micro-interactions. Fully responsive and customizable.",
+                features: ["Custom cursor", "Particle background", "Smooth scroll", "Dark theme"],
+                techStack: ["HTML/CSS", "JavaScript", "Three.js"],
+                category: "UI Designs",
+                image: "https://placehold.co/600x400/132442/b5d4ff?text=Glass+Portfolio",
+                liveDemo: "#",
+                github: "#"
+            },
+            {
+                id: 6,
+                title: "EcoBrand Campaign",
+                shortDesc: "Eco-friendly brand awareness microsite.",
+                fullDesc: "Marketing microsite focused on sustainability, featuring video storytelling, interactive impact calculator, and clean aesthetics.",
+                features: ["Video hero", "Carbon offset widget", "Responsive storytelling"],
+                techStack: ["SCSS", "JavaScript", "GSAP", "AOS"],
+                category: "Marketing Projects",
+                image: "https://placehold.co/600x400/0e2645/c7e0ff?text=EcoBrand",
+                liveDemo: "#",
+                github: "#"
+            }
+        ];
+
+        let activeFilter = "all";
+        let searchQuery = "";
+
+        // Helper: render projects based on filter + search
+        function renderProjects() {
+            const container = document.getElementById("projectsGridContainer");
+            if (!container) return;
+
+            let filtered = projectsData.filter(project => {
+                const matchesCategory = activeFilter === "all" || project.category === activeFilter;
+                const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    project.shortDesc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    project.techStack.some(tech => tech.toLowerCase().includes(searchQuery.toLowerCase()));
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem;">✨ No projects match. Try different filter or search ✨</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(project => `
+      <div class="project-card glass-card" data-id="${project.id}">
+        <div class="card-img" style="background-image: url('${project.image}'); background-size: cover;"></div>
+        <div class="card-content">
+          <div class="card-title">${escapeHtml(project.title)}</div>
+          <div class="card-desc">${escapeHtml(project.shortDesc)}</div>
+          <div class="tech-stack">
+            ${project.techStack.map(tech => `<span class="tech-badge">${escapeHtml(tech)}</span>`).join('')}
+          </div>
+          <button class="btn-outline view-details-btn" data-id="${project.id}" style="width:100%; justify-content:center;">View Details <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+    `).join('');
+
+            // attach event listeners to all "View Details" buttons
+            document.querySelectorAll('.view-details-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    const project = projectsData.find(p => p.id === id);
+                    if (project) openDetailsModal(project);
+                });
+            });
+        }
+
+        function openDetailsModal(project) {
+            const modal = document.getElementById("detailsModal");
+            const modalContentDiv = document.getElementById("modalContent");
+            if (!modalContentDiv) return;
+
+            modalContentDiv.innerHTML = `
+      <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">${escapeHtml(project.title)}</h2>
+      <div class="preview-img" style="background-image: url('${project.image}'); background-size: cover;"></div>
+      <p style="margin: 0.5rem 0 1rem; line-height:1.4;">${escapeHtml(project.fullDesc)}</p>
+      <h3 style="margin: 1rem 0 0.5rem;"><i class="fas fa-check-circle"></i> Features</h3>
+      <ul class="features-list">
+        ${project.features.map(f => `<li><i class="fas fa-star" style="font-size:0.8rem; margin-right:0.5rem;"></i> ${escapeHtml(f)}</li>`).join('')}
+      </ul>
+      <h3 style="margin: 1rem 0 0.5rem;"><i class="fas fa-code"></i> Technologies</h3>
+      <div class="tech-stack" style="margin-bottom: 1rem;">
+        ${project.techStack.map(tech => `<span class="tech-badge">${escapeHtml(tech)}</span>`).join('')}
+      </div>
+      <div class="action-buttons">
+        <a href="${project.liveDemo}" target="_blank" class="btn-primary" style="text-decoration:none;"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+        <a href="${project.github}" target="_blank" class="btn-outline" style="text-decoration:none;"><i class="fab fa-github"></i> GitHub Repo</a>
+      </div>
+    `;
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("detailsModal");
+            modal.classList.remove("active");
+            document.body.style.overflow = "";
+        }
+
+        // helper to escape HTML
+        function escapeHtml(str) {
+            return str.replace(/[&<>]/g, function (m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function (c) {
+                return c;
+            });
+        }
+
+        // filter UI event handlers
+        function initFilters() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.getAttribute('data-cat');
+                    renderProjects();
+                });
+            });
+
+            const searchBtn = document.getElementById('searchBtn');
+            const searchInput = document.getElementById('searchInput');
+            function performSearch() {
+                searchQuery = searchInput.value.trim();
+                renderProjects();
+            }
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+        }
+
+        // Navigation between home and projects (smooth transitions, but projects grid is shared)
+        // We implement virtual "pages" by scrolling to top and keeping same content, but to satisfy 'Home' and 'Projects' sections, we simply scroll to hero or grid.
+        // Additional UX: home button scrolls to hero + show message, projects button scrolls to projects grid.
+        const homeLink = document.getElementById('navHome');
+        const projectsLink = document.getElementById('navProjects');
+        const exploreBtnElem = document.getElementById('exploreBtn');
+
+        if (homeLink) {
+            homeLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // ensure active filter doesn't reset, just show everything
+            });
+        }
+        if (projectsLink) {
+            projectsLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const gridContainer = document.getElementById('projectsGridContainer');
+                if (gridContainer) {
+                    gridContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+        if (exploreBtnElem) {
+            exploreBtnElem.addEventListener('click', () => {
+                const gridContainer = document.getElementById('projectsGridContainer');
+                if (gridContainer) {
+                    gridContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        }
+
+        // close modal event
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+        const modalOverlay = document.getElementById('detailsModal');
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // initial render + filters + any extra: make fast loading.
+        function init() {
+            renderProjects();
+            initFilters();
+        }
+        init();
+
+        // responsive active, modal escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('detailsModal').classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+
+</html>
